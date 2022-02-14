@@ -1,45 +1,39 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+//
+import LoginPage from './components/LoginPage.jsx';
+import HomePage from './components/HomePage.jsx';
+import RecipeEditor from './components/RecipeEditor.jsx';
+//
+import {
+  getFromLocalStorage,
+  saveOnLocalStorage,
+} from './utilities/storage/storage.js';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Try to get the stored token if there's one. So the users doesn't have to log in every time they open the app
+  const [token, setToken] = useState(getFromLocalStorage('token') || null);
+
+  useEffect(() => {
+    // Store the token every time is updated
+    saveOnLocalStorage('token', token);
+  }, [token]);
+
+  // If there's no token take the user back to the log in page
+  if (!token) {
+    return <LoginPage setToken={setToken} />;
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div className="wrapper">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="editor" element={<RecipeEditor />} />
+        </Routes>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
