@@ -4,7 +4,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { handleUserSubmit } from '../utilities/loginAuth/handleUserSubmit.jsx';
 
 function LoginPage({ setToken }) {
+  // disables the form if the program is making an api call
   const [fetching, setFetching] = useState(false);
+
   return (
     <div className="bg-gradient-to-b from-lime-300 to-emerald-500 h-screen">
       <Formik
@@ -26,9 +28,12 @@ function LoginPage({ setToken }) {
         }}
         onSubmit={async (values, { resetForm }) => {
           resetForm(); // Cleans the form
-          /* setFetching(true); // Disable the form while awaiting the API response */
+
+          setFetching(true); // Disable the form while awaiting the API response
           const token = await handleUserSubmit(values);
           setToken(token);
+
+          setFetching(false);
         }}
       >
         {/* Destructuring Formik props for easier use */}
