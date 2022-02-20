@@ -9,6 +9,7 @@ import {
   getFromLocalStorage,
   saveOnLocalStorage,
 } from './utilities/storage/storage.js';
+import Navbar from './components/Navbar.jsx';
 
 function App() {
   // Try to get the stored token if there's one. So the users doesn't have to log in every time they open the app
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <div className="wrapper">
+      <Navbar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -1,7 +1,7 @@
 import React from 'react';
 //
 import { BsClockHistory, BsFillHeartFill, BsBasketFill } from 'react-icons/bs';
-import DishCard from './DishCard';
+import DishCard from './DishCard.jsx';
 
 function HomePage() {
   return (
