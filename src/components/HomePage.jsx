@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 //
 import { BsClockHistory, BsFillHeartFill, BsBasketFill } from 'react-icons/bs';
+import {
+  deleteDish,
+  DISHES_KEY,
+  getFromLocalStorage,
+} from '../utilities/storage/storage.js';
 import DishCard from './DishCard.jsx';
 
 function HomePage() {
+  const dishes = getFromLocalStorage(DISHES_KEY);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-slate-200">
       <DishesSection title="dishes summary">
@@ -12,19 +19,16 @@ function HomePage() {
         <SummaryItem title="Total price" value="$999.99" icon="price" />
       </DishesSection>
       <DishesSection title="your dishes">
-        {/* Will get replaced with a loop when the api works */}
-        <DishCard
-          name="Burger with tomatoes and Rucula"
-          price="$69.69"
-          healthScore="95.66"
-          time="23hs. 58mins."
-        />
-        <DishCard
-          name="Ricotta gnocchi with pesto"
-          price="$169.69"
-          healthScore="5.66"
-          time="58mins."
-        />
+        {dishes.map(dish => {
+          return (
+            <DishCard
+              key={dish.title}
+              dish={dish}
+              btn="Delete"
+              onClick={deleteDish}
+            />
+          );
+        })}
       </DishesSection>
     </main>
   );

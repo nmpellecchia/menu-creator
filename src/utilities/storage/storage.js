@@ -1,3 +1,7 @@
+// This time I choose letting the function have the key. To avoid
+// having to write it multiple times in the code
+export const DISHES_KEY = 'selectedDishes';
+
 // This program handles localStorage a few times so I consider is better
 // to have a function for this purpose
 export function saveOnLocalStorage(key, value) {
@@ -10,11 +14,8 @@ export function getFromLocalStorage(key) {
 }
 
 export function addNewItem(value) {
-  // This time I choose letting the function have the key. To avoid
-  // having to write it multiple times in the code
-  const key = 'selectedDishes';
   //Retrieve from localstorage or create a new array if there isn't one
-  let items = JSON.parse(localStorage.getItem(key)) || [];
+  let items = getFromLocalStorage(DISHES_KEY) || [];
 
   // If item already exists returns index, else -1
   let i = items.findIndex(item => item.title == value.title);
@@ -32,10 +33,19 @@ export function addNewItem(value) {
   }
   items.push(value);
 
-  saveOnLocalStorage(key, items);
+  saveOnLocalStorage(DISHES_KEY, items);
+}
+
+export function deleteDish(value) {
+  const dishes = getFromLocalStorage(DISHES_KEY);
+
+  const newDishes = dishes.filter(dish => dish.id !== value.id);
+
+  saveOnLocalStorage(DISHES_KEY, newDishes);
 }
 
 // This function should be tested with a library
+//////////////////// MOVE TO SERVICES FILE ///////////////
 function checkVeganDishes(itemList, itemToAdd) {
   let veganDishes = 0;
 
