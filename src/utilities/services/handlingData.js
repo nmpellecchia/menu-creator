@@ -1,4 +1,11 @@
-import { Dish } from './dish.js';
+import { getRecipeFromAPI } from '../api/api.js';
+import { Dish } from '../api/dish.js';
+
+export async function getDishes(values) {
+  const rawData = await getRecipeFromAPI(values);
+  const dishes = destructureDishes(rawData);
+  return dishes;
+}
 
 export function destructureDishes(dishes) {
   const purgedDishes = [];

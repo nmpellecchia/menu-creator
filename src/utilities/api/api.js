@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-export async function getRecipeByName(value) {
+export async function getRecipeFromAPI(values) {
   let dishes;
+  let diet = '';
+  values.vegan ? (diet = 'vegan') : (diet = '');
+
   try {
     const res = await axios.get(
       'https://api.spoonacular.com/recipes/complexSearch?',
@@ -9,7 +12,11 @@ export async function getRecipeByName(value) {
         params: {
           //Stored in .env
           apiKey: import.meta.env.VITE_API_KEY,
-          query: value,
+          query: values.search,
+          // Spread to be able to have ternary operators and have a conditional param
+          ...(diet && {
+            diet: diet,
+          }),
           // get all the info to avoid having to call multiple times the api
           addRecipeInformation: true,
           number: 10,
