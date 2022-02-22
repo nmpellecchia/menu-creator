@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { FaSearch } from 'react-icons/fa';
 //
 import DishCard from './DishCard.jsx';
+import { getDishes } from '../utilities/services/handlingData.js';
+import { addNewItem } from '../utilities/storage/storage.js';
 
 function RecipeEditor() {
+  const [dishes, setDishes] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   return (
     <main className="w-full h-full">
       <h1 className="text-3xl font-black text-center text-emerald-500 md:text-5xl md:mb-2">
@@ -24,7 +28,9 @@ function RecipeEditor() {
         }}
         onSubmit={async (values, { resetForm }) => {
           resetForm();
-          console.log(values);
+          const newDishes = await getDishes(values);
+          setDishes(newDishes);
+          setSearchValue(values.search);
         }}
       >
         {() => (
@@ -59,15 +65,24 @@ function RecipeEditor() {
       </Formik>
       <section className="p-2">
         <h2 className="uppercase text-3xl text-lime-600 font-bold ml-6">
-          "Your search" dishes with
+          "{searchValue}" dishes
         </h2>
         <ul className="w-11/12 flex justify-center flex-wrap gap-4">
-          <DishCard
-            name="Burger with tomatoes and Rucula"
-            price="$69.69"
-            healthScore="95.66"
-            time="23hs. 58mins."
-          />
+          {dishes.map(dish => {
+            return (
+              <DishCard
+                key={dish.title}
+                /* name={dish.title}
+                img={dish.img}
+                price={dish.price}
+                healthScore={dish.healthScore}
+                time={dish.prepTime} */
+                dish={dish}
+                btn="Add"
+                onClick={addNewItem}
+              />
+            );
+          })}
         </ul>
       </section>
     </main>
