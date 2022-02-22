@@ -1,23 +1,77 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 //
 import { BsClockHistory, BsFillHeartFill, BsBasketFill } from 'react-icons/bs';
 import {
-  deleteDish,
   DISHES_KEY,
   getFromLocalStorage,
+  saveOnLocalStorage,
 } from '../utilities/storage/storage.js';
 import DishCard from './DishCard.jsx';
 
 function HomePage() {
-  const dishes = getFromLocalStorage(DISHES_KEY);
+  const [dishes, setDishes] = useState(getFromLocalStorage(DISHES_KEY) || []);
+  const [time, setTime] = useState(0);
+  const [score, setScore] = useState(0);
+  const [price, setPrice] = useState(0);
+
+  const getAvgValue = (value, amount) => {
+    return value / amount;
+  };
+
+  useEffect(() => {
+    const totalDishes = dishes.length;
+    // Trying to modify useState inside map caused infinite loop
+    // This is a workaround
+    let newTime = 0;
+    let newScore = 0;
+    let newPrice = 0;
+    // instead of modifying the state, use a normal variable
+    // and update the state JUST ONCE at the end
+    dishes.map(dish => {
+      newTime += dish.prepTime;
+      newScore += dish.healthScore;
+      newPrice += dish.price;
+    });
+
+    setTime(Math.round(getAvgValue(newTime, totalDishes)));
+    setScore(getAvgValue(newScore, totalDishes).toFixed(2));
+
+    setPrice(newPrice.toFixed(2));
+  }, [dishes]);
+
+  const onClick = value => {
+    const newDishes = dishes.filter(dish => dish.id !== value.id);
+    setDishes(newDishes);
+    saveOnLocalStorage(DISHES_KEY, newDishes);
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-slate-200">
       <DishesSection title="dishes summary">
-        <SummaryItem title="Avg. prep. time" value="2hs 45mins" icon="time" />
-        <SummaryItem title="Avg. health score" value="69.69" icon="score" />
-        <SummaryItem title="Total price" value="$999.99" icon="price" />
+        <SummaryItem
+          title="Avg. prep. time"
+          value={`${time}mins`}
+          icon="time"
+        />
+        <SummaryItem title="Avg. health score" value={score} icon="score" />
+        <SummaryItem title="Total price" value={`$${price}`} icon="price" />
       </DishesSection>
+      <article className="w-full px-6 flex justify-end text-6xl text-emerald-600">
+        {dishes.length >= 4 ? (
+          <button
+            disabled="disabled"
+            title="There are already too many dishes"
+            className="pointer-none text-slate-600"
+          >
+            +
+          </button>
+        ) : (
+          <Link to="/editor" title="Add dish" className="hover:text-lime-600">
+            +
+          </Link>
+        )}
+      </article>
       <DishesSection title="your dishes">
         {dishes.map(dish => {
           return (
@@ -25,7 +79,7 @@ function HomePage() {
               key={dish.title}
               dish={dish}
               btn="Delete"
-              onClick={deleteDish}
+              onClick={onClick}
             />
           );
         })}

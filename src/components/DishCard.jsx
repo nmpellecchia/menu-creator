@@ -10,7 +10,7 @@ function DishCard({ dish, btn, onClick }) {
       <div className="shadow-2xl rounded-2xl p-3">
         <img
           src={dish.img || '#'}
-          alt={dish.name}
+          alt={dish.title}
           className="w-7/12 float-right bg-red-500"
         />
         <h3 className="font-semibold uppercase text-lg">{dish.title}</h3>
