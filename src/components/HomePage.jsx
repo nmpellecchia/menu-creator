@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //
 import { BsClockHistory, BsFillHeartFill, BsBasketFill } from 'react-icons/bs';
+//
 import {
   DISHES_KEY,
   getFromLocalStorage,
   saveOnLocalStorage,
 } from '../utilities/storage/storage.js';
+import { getAvgValue, getTime } from '../utilities/services/handlingData.js';
+//
 import DishCard from './DishCard.jsx';
 
 function HomePage() {
@@ -14,11 +17,6 @@ function HomePage() {
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
   const [price, setPrice] = useState(0);
-
-  const getAvgValue = (value, amount) => {
-    return value / amount;
-  };
-
   useEffect(() => {
     const totalDishes = dishes.length;
     // Trying to modify useState inside map caused infinite loop
@@ -51,7 +49,7 @@ function HomePage() {
       <DishesSection title="dishes summary">
         <SummaryItem
           title="Avg. prep. time"
-          value={`${time}mins`}
+          value={getTime(time)}
           icon="time"
         />
         <SummaryItem title="Avg. health score" value={score} icon="score" />

@@ -36,16 +36,7 @@ export function addNewItem(value) {
   saveOnLocalStorage(DISHES_KEY, items);
 }
 
-export function deleteDish(value) {
-  const dishes = getFromLocalStorage(DISHES_KEY);
-
-  const newDishes = dishes.filter(dish => dish.id !== value.id);
-
-  saveOnLocalStorage(DISHES_KEY, newDishes);
-}
-
 // This function should be tested with a library
-//////////////////// MOVE TO SERVICES FILE ///////////////
 function checkVeganDishes(itemList, itemToAdd) {
   let veganDishes = 0;
 

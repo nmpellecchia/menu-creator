@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { FaSearch } from 'react-icons/fa';
 //
 import DishCard from './DishCard.jsx';
-import { getDishes } from '../utilities/services/handlingData.js';
+import { getDishes } from '../utilities/services/dishes.js';
 import { addNewItem } from '../utilities/storage/storage.js';
 
 function RecipeEditor() {

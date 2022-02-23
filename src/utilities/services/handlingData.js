@@ -1,41 +1,23 @@
-import { getRecipeFromAPI } from '../api/api.js';
-import { Dish } from '../api/dish.js';
-
-export async function getDishes(values) {
-  const rawData = await getRecipeFromAPI(values);
-  const dishes = destructureDishes(rawData);
-  return dishes;
+export function getAvgValue(value, amount) {
+  return value / amount;
 }
 
-export function destructureDishes(dishes) {
-  const purgedDishes = [];
-  dishes.map(dish => {
-    const {
-      id,
-      title,
-      image,
-      vegan,
-      healthScore,
-      pricePerServing,
-      readyInMinutes,
-      servings,
-      dishTypes,
-      analyzedInstructions,
-    } = dish;
+export function cropStr(str) {
+  const maxAmount = 20;
+  if (str.length > maxAmount) {
+    return str.slice(0, maxAmount) + '...';
+  }
+  return str;
+}
 
-    const purgedDish = new Dish(
-      id,
-      title,
-      image,
-      vegan,
-      healthScore,
-      servings,
-      pricePerServing,
-      readyInMinutes,
-      dishTypes,
-      analyzedInstructions
-    );
-    purgedDishes.push(purgedDish);
-  });
-  return purgedDishes;
+export function getTime(mins) {
+  let time = '';
+  const hours = Math.floor(mins / 60);
+  const newMins = mins % 60;
+
+  if (hours > 0) {
+    time += hours + 'hs.';
+  }
+
+  return (time += newMins + 'mins');
 }
