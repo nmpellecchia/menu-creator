@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <Navbar />
+      <Navbar setToken={setToken} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
