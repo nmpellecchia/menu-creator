@@ -3,8 +3,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 // import the css to have the styling
 import 'sweetalert2/dist/sweetalert2.min.css';
 //
-import { cropStr, getTime } from '../utilities/services/handlingData';
-import { showSuccessPopup } from '../utilities/services/popups';
+import { cropStr, getTime } from '../../utilities/services/handlingData';
+import { showSuccessPopup } from '../../utilities/services/popups';
 
 function DishCard({ dish, btn, onClick }) {
   const [icon, setIcon] = useState('');

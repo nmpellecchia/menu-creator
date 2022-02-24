@@ -7,10 +7,10 @@ import {
   DISHES_KEY,
   getFromLocalStorage,
   saveOnLocalStorage,
-} from '../utilities/storage/storage.js';
-import { getAvgValue, getTime } from '../utilities/services/handlingData.js';
+} from '../../utilities/storage/storage.js';
+import { getAvgValue, getTime } from '../../utilities/services/handlingData.js';
 //
-import DishCard from './DishCard.jsx';
+import DishCard from '../cardsAndSections/DishCard.jsx';
 
 function HomePage() {
   const [dishes, setDishes] = useState(getFromLocalStorage(DISHES_KEY) || []);

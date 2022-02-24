@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 //
-import { handleUserSubmit } from '../utilities/loginAuth/handleUserSubmit.jsx';
+import { handleUserSubmit } from '../../utilities/loginAuth/handleUserSubmit.jsx';
 
 function LoginPage({ setToken }) {
   // disables the form if the program is making an api call
