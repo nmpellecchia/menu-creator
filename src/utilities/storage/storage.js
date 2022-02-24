@@ -1,3 +1,5 @@
+import { showErrorPopup } from '../services/popups.js';
+
 // This time I choose letting the function have the key. To avoid
 // having to write it multiple times in the code
 export const DISHES_KEY = 'selectedDishes';
@@ -21,31 +23,25 @@ export function addNewItem(value) {
   let i = items.findIndex(item => item.title == value.title);
 
   if (items.length >= 4) {
-    return;
+    showErrorPopup('You have too many dishes!');
+    return false;
   }
   // Check if item is not already in the list
   if (i !== -1) {
-    return;
+    showErrorPopup('This dish is already on the menu!');
+    return false;
   }
 
   if (!checkVeganDishes(items, value)) {
-    return;
+    return false;
   }
   items.push(value);
 
   saveOnLocalStorage(DISHES_KEY, items);
-}
-
-export function deleteDish(value) {
-  const dishes = getFromLocalStorage(DISHES_KEY);
-
-  const newDishes = dishes.filter(dish => dish.id !== value.id);
-
-  saveOnLocalStorage(DISHES_KEY, newDishes);
+  return true;
 }
 
 // This function should be tested with a library
-//////////////////// MOVE TO SERVICES FILE ///////////////
 function checkVeganDishes(itemList, itemToAdd) {
   let veganDishes = 0;
 
@@ -66,19 +62,20 @@ function checkVeganDishes(itemList, itemToAdd) {
   switch (veganDishes) {
     case 2:
       if (itemToAdd.vegan) {
-        alert('You have too many vegan dishes');
+        showErrorPopup('You have too many vegan dishes');
+
         return false;
       }
       break;
     case 1:
       if (!itemToAdd.vegan && itemList.length == 3) {
-        alert('Add another vegan dish');
+        showErrorPopup('Add another vegan dish');
         return false;
       }
       break;
     case 0:
       if (!itemToAdd.vegan && itemList.length == 2) {
-        alert('Add a vegan dish');
+        showErrorPopup('Add a vegan dish');
         return false;
       }
       break;
