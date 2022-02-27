@@ -28,7 +28,7 @@ function App() {
   }
 
   return (
-    <div className="wrapper">
+    <div className="wrapper font-main">
       <Navbar setToken={setToken} />
       <BrowserRouter>
         <Routes>

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .button {
+    @apply rounded-full bg-gradient-to-r from-lime-500 to-emerald-700 p-2 text-white text-lg uppercase hover:from-emerald-500 disabled:from-emerald-200 disabled:to-emerald-200 disabled:text-slate-500 disabled:cursor-wait;
+  }
+}

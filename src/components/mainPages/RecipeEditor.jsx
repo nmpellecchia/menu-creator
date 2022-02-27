@@ -5,6 +5,8 @@ import { Formik, Form, Field } from 'formik';
 import { FaSearch } from 'react-icons/fa';
 //
 import DishCard from '../cardsAndSections/DishCard.jsx';
+import DishesSection from '../cardsAndSections/DishesSection.jsx';
+//
 import { getDishes } from '../../utilities/services/dishes.js';
 import { addNewItem } from '../../utilities/storage/storage.js';
 
@@ -15,6 +17,7 @@ function RecipeEditor() {
   //
   const history = useNavigate();
 
+  // Change the results title depending on the API response
   useEffect(() => {
     if (dishes.length > 0 && searchValue !== '') {
       setResultsTitle(`Dishes containing '${searchValue}'`);
@@ -26,10 +29,15 @@ function RecipeEditor() {
   }, [searchValue]);
 
   return (
-    <main className="w-full h-full">
-      <h1 className="text-3xl font-black text-center text-emerald-500 md:text-5xl md:mb-2">
-        Recipe Searcher
-      </h1>
+    <main className="w-full min-h-screen h-full bg-gradient-to-b from-white to-slate-200">
+      <button
+        onClick={() => {
+          history(-1);
+        }}
+        className="bg-none text-black text-md hover:text-emerald-600 hover:underline"
+      >
+        {'<< Go back'}
+      </button>
       <SearchForm setDishes={setDishes} setSearchValue={setSearchValue} />
 
       <DishesSection title={resultsTitle}>
@@ -44,22 +52,14 @@ function RecipeEditor() {
           );
         })}
       </DishesSection>
-      <div className="sticky bottom-0 right-0 flex justify-end gap-6 p-4">
-        <button
-          onClick={() => {
-            history(-1);
-          }}
-          className="bg-emerald-600 border-2 border-emerald-600 text-white font-bold duration-500 hover:bg-transparent hover:text-emerald-600"
-        >
-          Go back
-        </button>
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="bg-emerald-600 border-2 border-emerald-600 text-white font-bold duration-500 hover:bg-transparent hover:text-emerald-600"
-        >
-          Go Up
-        </button>
-      </div>
+
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        title="Scroll to top"
+        className="button sticky bottom-10 left-full mr-2 px-4 py-2 text-2xl"
+      >
+        ↑
+      </button>
     </main>
   );
 }
@@ -87,8 +87,24 @@ function SearchForm({ setDishes, setSearchValue }) {
     >
       {() => (
         <Form className="w-full h-40 text-md p-4">
+          <p className="opacity-80 mb-2">Search a dish name or an ingredient</p>
+          <fieldset className="flex justify-baseline">
+            <Field
+              type="text"
+              id="search"
+              name="search"
+              className="border-y-2 border-l-2 border-slate-200 w-3/4 pr-2 outline-none"
+              placeholder="BBQ Ribs, Pizza, Milk, Butter..."
+            />
+            <button
+              type="submit"
+              className="border-y-2 border-r-2 border-slate-200 rounded-none text-slate-400 hover:text-lime-600"
+            >
+              <FaSearch />
+            </button>
+          </fieldset>
           <fieldset>
-            <label className="inline-flex items-center text-md flex gap-2 cursor-pointer">
+            <label className="inline-flex items-center text-md flex gap-2 cursor-pointer mt-2">
               <Field
                 type="checkbox"
                 name="vegan"
@@ -97,37 +113,9 @@ function SearchForm({ setDishes, setSearchValue }) {
               Vegan
             </label>
           </fieldset>
-          <fieldset className="flex justify-baseline">
-            <Field
-              type="text"
-              id="search"
-              name="search"
-              className="border-y-2 border-l-2 border-slate-200 w-3/4 pr-2 outline-none"
-              placeholder="Search recipe by name or ingredient"
-            />
-            <button
-              type="submit"
-              className="border-y-2 border-r-2 border-slate-200 text-slate-400 hover:text-lime-600"
-            >
-              <FaSearch />
-            </button>
-          </fieldset>
         </Form>
       )}
     </Formik>
-  );
-}
-
-function DishesSection(props) {
-  return (
-    <article>
-      <h2 className="uppercase text-3xl text-lime-600 font-bold ml-6">
-        {props.title}
-      </h2>
-      <ul className="w-11/12 flex justify-center flex-wrap gap-4">
-        {props.children}
-      </ul>
-    </article>
   );
 }
 
