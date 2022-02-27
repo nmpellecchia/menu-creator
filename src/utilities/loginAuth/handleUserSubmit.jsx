@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { showErrorPopup } from '../services/popups';
 
 // changed name to UserSubmit to avoid conflicts
 export async function handleUserSubmit(credentials) {
@@ -12,10 +13,12 @@ export async function handleUserSubmit(credentials) {
     });
     if (res.status === 200) {
       token = res.data.token;
+    } else {
+      showErrorPopup('An error has ocurred! \n Please try again later.');
     }
 
     return token;
   } catch (error) {
-    alert(error);
+    showErrorPopup('An error has ocurred! \n Please try again later.');
   }
 }
