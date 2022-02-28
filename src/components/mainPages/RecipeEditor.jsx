@@ -30,6 +30,7 @@ function RecipeEditor() {
 
   return (
     <main className="w-full min-h-screen h-full bg-gradient-to-b from-white to-slate-200">
+      {/* Go back to previous page */}
       <button
         onClick={() => {
           history(-1);

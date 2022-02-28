@@ -7,6 +7,7 @@ import { cropStr, getTime } from '../../utilities/services/handlingData';
 import { showSuccessPopup } from '../../utilities/services/popups';
 
 function DishCard({ dish, btn, onClick }) {
+  // Display a different icon depending the healthScore value
   const [icon, setIcon] = useState('');
 
   const handleClick = () => {

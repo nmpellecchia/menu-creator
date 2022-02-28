@@ -18,6 +18,7 @@ function HomePage() {
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
   const [price, setPrice] = useState(0);
+
   useEffect(() => {
     const totalDishes = dishes.length;
     // Trying to modify useState inside map caused infinite loop
@@ -87,11 +88,11 @@ function HomePage() {
   );
 }
 
-// The three summary at the top of the page
+// The three summaries at the top of the page
 function SummaryItem(props) {
   let icon;
 
-  // Select wich icon to show
+  // Select which icon to show
   switch (props.icon) {
     // prep time
     case 'time':
