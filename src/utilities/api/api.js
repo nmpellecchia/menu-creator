@@ -19,7 +19,7 @@ export async function getRecipeFromAPI(values) {
           }),
           // get all the info to avoid having to call multiple times the api
           addRecipeInformation: true,
-          number: 10,
+          number: 20,
         },
       }
     );

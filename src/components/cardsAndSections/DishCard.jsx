@@ -3,10 +3,11 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 // import the css to have the styling
 import 'sweetalert2/dist/sweetalert2.min.css';
 //
-import { cropStr, getTime } from '../utilities/services/handlingData';
-import { showSuccessPopup } from '../utilities/services/popups';
+import { cropStr, getTime } from '../../utilities/services/handlingData';
+import { showSuccessPopup } from '../../utilities/services/popups';
 
 function DishCard({ dish, btn, onClick }) {
+  // Display a different icon depending the healthScore value
   const [icon, setIcon] = useState('');
 
   const handleClick = () => {
@@ -44,7 +45,7 @@ function DishCard({ dish, btn, onClick }) {
     const detailPopUp = Swal.mixin({
       customClass: {
         confirmButton:
-          'rounded-full bg-lime-600 border-4 border-lime-600 p-4 text-white text-2xl uppercase font-bold duration-300 hover:bg-white hover:text-lime-600',
+          'rounded-full bg-gradient-to-r from-lime-500 to-emerald-700 p-2 text-white text-lg uppercase font-semibold hover:from-emerald-500',
       },
       buttonsStyling: false,
     });
@@ -68,48 +69,50 @@ function DishCard({ dish, btn, onClick }) {
   };
 
   useEffect(() => {
-    if (dish.healthScore < 25) {
-      setIcon('⛔ ');
-    } else if (dish.healthScore < 50) {
-      setIcon('❗ ');
+    if (dish.healthScore < 15) {
+      setIcon('😓 ');
+    } else if (dish.healthScore < 30) {
+      setIcon('😒 ');
+    } else if (dish.healthScore < 45) {
+      setIcon('🤔 ');
+    } else if (dish.healthScore < 60) {
+      setIcon('🙄 ');
     } else if (dish.healthScore < 75) {
-      setIcon('✔ ');
-    } else if (dish.healthScore < 100) {
-      setIcon('🔥 ');
+      setIcon('😄 ');
+    } else if (dish.healthScore < 90) {
+      setIcon('😎 ');
     } else {
-      setIcon('💪 ');
+      setIcon('🤩 ');
     }
   }, []);
 
   return (
     <li className="w-11/12 md:w-2/5  m-6">
-      <div className="shadow-2xl rounded-2xl p-3">
-        <img
-          src={dish.img || '#'}
-          alt={dish.title}
-          className="w-7/12 float-right bg-red-500"
-        />
-        <h3 className="font-semibold uppercase text-lg">
-          {cropStr(dish.title)}
-        </h3>
-        {dish.vegan && <p className="uppercase text-lime-600">(vegan)</p>}
-        <p className="font-semibold traking-wide">${dish.price}</p>
-        <p className="traking-widest font-bold text-lime-600 my-2 text-lg">
-          {icon + dish.healthScore}
-        </p>
-        <p>{getTime(dish.prepTime)}</p>
+      <div className="h-full flex flex-col justify-between shadow-2xl rounded-2xl p-3">
+        <div>
+          <img
+            src={dish.img || '#'}
+            alt={dish.title}
+            className="w-full float-none md:w-7/12 md:float-right"
+          />
+          <h3 className="font-semibold uppercase text-lg font-title">
+            {cropStr(dish.title)}
+          </h3>
+          {dish.vegan && (
+            <p className="uppercase text-lime-600 italic">(vegan)</p>
+          )}
+          <p className="font-semibold traking-wide">${dish.price}</p>
+          <p className="traking-widest font-bold text-lime-600 my-2 text-lg">
+            {icon + dish.healthScore}
+          </p>
+          <p>{getTime(dish.prepTime)}</p>
+        </div>
 
         <div className="flex justify-between pt-6 clear-both">
-          <button
-            className="rounded-full bg-lime-700 py-2 px-4 text-white hover:bg-emerald-700"
-            onClick={showDetails}
-          >
+          <button onClick={showDetails} className="button">
             Details
           </button>
-          <button
-            className="rounded-full bg-lime-700 py-2 px-4 text-white hover:bg-emerald-700"
-            onClick={handleClick}
-          >
+          <button onClick={handleClick} className="button">
             {btn}
           </button>
         </div>

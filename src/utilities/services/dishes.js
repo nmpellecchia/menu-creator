@@ -10,6 +10,7 @@ export async function getDishes(values) {
 export function destructureDishes(dishes) {
   const purgedDishes = [];
   dishes.map(dish => {
+    // Use object destructuring to get the important properties
     const {
       id,
       title,

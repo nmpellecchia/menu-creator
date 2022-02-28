@@ -1,11 +1,11 @@
 import { showErrorPopup } from '../services/popups.js';
 
-// This time I choose letting the function have the key. To avoid
+// This time I choose letting the entire file have access to the key. To avoid
 // having to write it multiple times in the code
 export const DISHES_KEY = 'selectedDishes';
 
-// This program handles localStorage a few times so I consider is better
-// to have a function for this purpose
+// This program handles localStorage a few times, I consider it is better
+// to have a file for this purpose
 export function saveOnLocalStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }

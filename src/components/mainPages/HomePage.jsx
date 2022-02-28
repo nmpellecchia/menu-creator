@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //
+import DishCard from '../cardsAndSections/DishCard.jsx';
+import DishesSection from '../cardsAndSections/DishesSection.jsx';
+//
 import { BsClockHistory, BsFillHeartFill, BsBasketFill } from 'react-icons/bs';
 //
 import {
   DISHES_KEY,
   getFromLocalStorage,
   saveOnLocalStorage,
-} from '../utilities/storage/storage.js';
-import { getAvgValue, getTime } from '../utilities/services/handlingData.js';
-//
-import DishCard from './DishCard.jsx';
+} from '../../utilities/storage/storage.js';
+import { getAvgValue, getTime } from '../../utilities/services/handlingData.js';
 
 function HomePage() {
   const [dishes, setDishes] = useState(getFromLocalStorage(DISHES_KEY) || []);
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
   const [price, setPrice] = useState(0);
+
   useEffect(() => {
     const totalDishes = dishes.length;
     // Trying to modify useState inside map caused infinite loop
@@ -86,24 +88,11 @@ function HomePage() {
   );
 }
 
-// recieves title, listComponent & component content
-function DishesSection(props) {
-  return (
-    <article>
-      <h2 className="uppercase text-3xl text-lime-600 font-bold ml-6">
-        {props.title}
-      </h2>
-      <ul className="w-11/12 flex justify-center flex-wrap gap-4">
-        {props.children}
-      </ul>
-    </article>
-  );
-}
-// The three summary at the top of the page
+// The three summaries at the top of the page
 function SummaryItem(props) {
   let icon;
 
-  // Select wich icon to show
+  // Select which icon to show
   switch (props.icon) {
     // prep time
     case 'time':

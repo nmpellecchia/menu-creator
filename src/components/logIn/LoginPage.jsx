@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 //
-import { handleUserSubmit } from '../utilities/loginAuth/handleUserSubmit.jsx';
+import { handleUserSubmit } from '../../utilities/loginAuth/handleUserSubmit.js';
 
 function LoginPage({ setToken }) {
   // disables the form if the program is making an api call
@@ -87,11 +87,7 @@ function LoginPage({ setToken }) {
                 )}
               />
             </div>
-            <button
-              type="submit"
-              disabled={fetching}
-              className="w-1/2 rounded-full bg-lime-600 border-4 border-lime-600 p-4 text-white text-2xl uppercase font-bold duration-300 hover:bg-white hover:text-lime-600 disabled:bg-lime-400 disabled:text-slate-300 disabled:border-lime-400 disabled:cursor-wait"
-            >
+            <button type="submit" disabled={fetching} className="button">
               Log in
             </button>
           </Form>
